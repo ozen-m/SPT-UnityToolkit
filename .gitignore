@@ -404,3 +404,15 @@ project/**/CopyToOutput/**/*.dll
 dist/
 .idea/
 .config/
+
+# Release archives and local regression fixtures contain binaries, not source.
+*.zip
+*.7z
+tests/runs/
+test-results/
+package/
+
+# Markdown release notes are source documentation, not build output.
+!/docs/releases/
+/docs/releases/*
+!/docs/releases/*.md

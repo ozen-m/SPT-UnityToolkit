@@ -5,50 +5,49 @@
     <ProjectGuid>{B876D9D8-DF82-45DC-8B32-92BA269A8190}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>UnityToolkit.Prepatcher</RootNamespace>
     <AssemblyName>UnityToolkit-Prepatcher</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Patcher.cs" />
-<!--    <Compile Include="Properties\AssemblyInfo.cs"/>-->
+    <Compile Include="Properties\AssemblyInfo.cs"/>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HarmonyX.2.7.0\lib\net35\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx, Version=5.4.20.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BepInEx.BaseLib.5.4.20\lib\net35\BepInEx.dll</HintPath>
+    <Reference Include="BepInEx">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\BepInEx.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.dll</HintPath>
+    <Reference Include="Mono.Cecil">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.Mdb.dll</HintPath>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.Pdb.dll</HintPath>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.Rocks.dll</HintPath>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
-    <Reference Include="MonoMod.RuntimeDetour, Version=21.12.13.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MonoMod.RuntimeDetour.21.12.13.1\lib\net35\MonoMod.RuntimeDetour.dll</HintPath>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\MonoMod.RuntimeDetour.dll</HintPath>
     </Reference>
-    <Reference Include="MonoMod.Utils, Version=21.12.13.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MonoMod.Utils.21.12.13.1\lib\net35\MonoMod.Utils.dll</HintPath>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>$(SptSharedAssembliesDir)$(SptVersion)\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
           Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
-  <Target Name="PostBuild" AfterTargets="Build;Rebuild">
+  <Target Name="PostBuild" AfterTargets="Build;Rebuild" Condition=" '$(SkipDeploy)' != 'true' ">
     <Exec Command="if not exist &quot;$(SptBepInExPatchersDir)UnityToolkit&quot; (
     mkdir &quot;$(SptBepInExPatchersDir)UnityToolkit&quot;
     )
@@ -56,17 +55,10 @@
     copy &quot;$(TargetPath)&quot; &quot;$(SptBepInExPatchersDir)UnityToolkit\$(TargetName).dll&quot;
     xcopy /y /s &quot;$(CopyToOutputDir)&quot; &quot;$(SptBepInExPatchersDir)&quot;" />
   </Target>
-  <Target Name="CreateReleaseZip" AfterTargets="PostBuild">
+  <Target Name="CreateReleaseZip" AfterTargets="PostBuild" Condition=" '$(SkipDeploy)' != 'true' ">
     <Exec Command="if not &quot;$(ConfigurationName)&quot;==&quot;Debug&quot; (
     cd /D &quot;$(SptBepInExPatchersDir)..\..\&quot;
     &quot;C:\Program Files\7-Zip\7z.exe&quot; a &quot;$(ReleaseArchive)&quot; &quot;BepInEx\patchers\UnityToolkit\*&quot;
     )" />
-  </Target>
-  <Import Project="..\..\packages\BepInEx.Core.5.4.21\build\BepInEx.Core.targets" Condition="Exists('..\..\packages\BepInEx.Core.5.4.21\build\BepInEx.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\BepInEx.Core.5.4.21\build\BepInEx.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\BepInEx.Core.5.4.21\build\BepInEx.Core.targets'))" />
   </Target>
 </Project>

@@ -1,12 +1,12 @@
 <Project>
   <PropertyGroup>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
-    <FileVersion>2.0.1</FileVersion>
+    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.2.0</AssemblyVersion>
+    <FileVersion>2.0.2.0</FileVersion>
     <Authors>Arys</Authors>
     <Copyright>Arys</Copyright>
     <LangVersion>latest</LangVersion>
-    <Configurations>Debug;SPT-3.10 Release;SPT-3.11 Release;SPT-4.0 Release</Configurations>
+    <Configurations>Debug;SPT-3.10 Release;SPT-3.11 Release;SPT-4.0 Release;SPT-4.1 Release</Configurations>
     <Platforms>AnyCPU</Platforms>
     <SolutionName>UnityToolkit</SolutionName>
     <DistributionDir>$(MSBuildThisFileDirectory)dist\</DistributionDir>
@@ -61,5 +61,13 @@
     <OutputPath>Build\SPT-4.0\</OutputPath>
     <SptVersion>400x</SptVersion>
     <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SPT-4.1 Release|AnyCPU' ">
+    <OutputPath>Build\SPT-4.1\</OutputPath>
+    <SptVersion>410x</SptVersion>
+    <Optimize>true</Optimize>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 </Project>

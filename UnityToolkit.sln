@@ -13,6 +13,7 @@ Global
 		SPT-3.10 Release|Any CPU = SPT-3.10 Release|Any CPU
 		SPT-3.11 Release|Any CPU = SPT-3.11 Release|Any CPU
 		SPT-4.0 Release|Any CPU = SPT-4.0 Release|Any CPU
+		SPT-4.1 Release|Any CPU = SPT-4.1 Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C36D0C27-A025-43E5-B4F2-DFC0B17410C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -23,6 +24,8 @@ Global
 		{C36D0C27-A025-43E5-B4F2-DFC0B17410C1}.SPT-3.11 Release|Any CPU.Build.0 = SPT-3.11 Release|Any CPU
 		{C36D0C27-A025-43E5-B4F2-DFC0B17410C1}.SPT-4.0 Release|Any CPU.ActiveCfg = SPT-4.0 Release|Any CPU
 		{C36D0C27-A025-43E5-B4F2-DFC0B17410C1}.SPT-4.0 Release|Any CPU.Build.0 = SPT-4.0 Release|Any CPU
+		{C36D0C27-A025-43E5-B4F2-DFC0B17410C1}.SPT-4.1 Release|Any CPU.ActiveCfg = SPT-4.1 Release|Any CPU
+		{C36D0C27-A025-43E5-B4F2-DFC0B17410C1}.SPT-4.1 Release|Any CPU.Build.0 = SPT-4.1 Release|Any CPU
 		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.SPT-3.10 Release|Any CPU.ActiveCfg = SPT-3.10 Release|Any CPU
@@ -31,6 +34,8 @@ Global
 		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.SPT-3.11 Release|Any CPU.Build.0 = SPT-3.11 Release|Any CPU
 		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.SPT-4.0 Release|Any CPU.ActiveCfg = SPT-4.0 Release|Any CPU
 		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.SPT-4.0 Release|Any CPU.Build.0 = SPT-4.0 Release|Any CPU
+		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.SPT-4.1 Release|Any CPU.ActiveCfg = SPT-4.1 Release|Any CPU
+		{B876D9D8-DF82-45DC-8B32-92BA269A8190}.SPT-4.1 Release|Any CPU.Build.0 = SPT-4.1 Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,7 +23,7 @@ public class InjectPlayerLoopSystems : ModulePatch
 	protected override MethodBase GetTargetMethod()
 	{
 		return AccessTools.Method(typeof(CustomPlayerLoopSystemsInjector),
-			nameof(CustomPlayerLoopSystemsInjector.Injection));
+			"Injection");
 	}
 
 	[PatchPostfix]

@@ -21,7 +21,7 @@ namespace UnityToolkit.Prepatcher
 		
 		static Patcher()
 		{
-			string currentPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
+			string currentPath = Path.GetDirectoryName(Path.GetFullPath(Assembly.GetExecutingAssembly().Location));
 			s_assemblyPath = Path.Combine(currentPath, ASSEMBLY_NAME);
 		}
 		

@@ -22,6 +22,9 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SPT-4.0 Release|AnyCPU' ">
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SPT-4.1 Release|AnyCPU' ">
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
   
   <ItemGroup>
     <Compile Remove="References\**" />
@@ -116,11 +119,11 @@
     <WriteLinesToFile File="@(PluginMetadataFilePath)" Lines="@(GeneratedText)" Overwrite="true" />
   </Target>
   
-  <Target Name="PostBuild" AfterTargets="Build;Rebuild">
+  <Target Name="PostBuild" AfterTargets="Build;Rebuild" Condition=" '$(SkipDeploy)' != 'true' ">
     <Exec Command="if not exist &quot;$(SptBepInExPluginsDir)UnityToolkit&quot; (&#xA;    mkdir &quot;$(SptBepInExPluginsDir)UnityToolkit&quot;&#xA;)&#xA;&#xA;copy &quot;$(TargetPath)&quot; &quot;$(SptBepInExPluginsDir)UnityToolkit\$(TargetFileName)&quot;&#xA;copy &quot;$(ProjectDir)References\*.dll&quot; &quot;$(SptBepInExPluginsDir)UnityToolkit&quot;&#xA;xcopy /y /s &quot;$(CopyToOutputDir)&quot; &quot;$(SptBepInExPluginsDir)UnityToolkit&quot;&#xA;&#xA;if &quot;$(ConfigurationName)&quot;==&quot;Debug&quot; (&#xA;    if exist &quot;$(TargetDir)$(TargetName).pdb&quot; (&#xA;        copy &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(SptBepInExPluginsDir)UnityToolkit\$(TargetName).pdb&quot;&#xA;    ) else (&#xA;        echo Debug symbols not found!&#xA;    )&#xA;) else (&#xA;    if exist &quot;$(SptBepInExPluginsDir)UnityToolkit\$(TargetName).pdb&quot; (&#xA;        del &quot;$(SptBepInExPluginsDir)UnityToolkit\$(TargetName).pdb&quot;&#xA;    )&#xA;)&#xA;&#xA;" />
   </Target>
   
-  <Target Name="CreateReleaseZip" AfterTargets="PostBuild">
+  <Target Name="CreateReleaseZip" AfterTargets="PostBuild" Condition=" '$(SkipDeploy)' != 'true' ">
     <Exec Command="if not &quot;$(ConfigurationName)&quot;==&quot;Debug&quot; (&#xA;    cd /D &quot;$(SptBepInExPluginsDir)..\..\&quot;&#xA;    &quot;C:\Program Files\7-Zip\7z.exe&quot; a &quot;$(ReleaseArchive)&quot; &quot;BepInEx\plugins\UnityToolkit\*&quot;&#xA;)" />
   </Target>
 </Project>

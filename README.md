@@ -1,51 +1,58 @@
 # UnityToolkit
 
-## What is this library for?
+UnityToolkit gives SPT client modders a shared set of libraries for asynchronous work, native collections, dependency injection, LINQ, and string building. It was created by [Arys](https://github.com/ArysWasTaken/UnityToolkit); this fork is maintained by Tylevo.
 
-This library aims to provide additional tools to client modders which will (hopefully) allow them to write more optimised code
-and reduce the performance cost and memory allocation of their code even further.
+**2.0.2 is a release candidate for SPT 4.1.5.** Both projects build successfully and all four isolated prepatcher tests pass. In-game testing of the corrected prepatcher is still pending. The release is being held as a draft, so its download is not publicly available yet.
 
-## How to use this library:
+## What changed in 2.0.2
 
-1. Download the latest release
-2. Copy the assemblies from the release zip to where you store your project's assembly references
-3. Add all the assemblies as assembly references to your project
-4. Add `[BepInDependency("com.arys.unitytoolkit")]` attribute to your plugin class (I recommend you add a minimum version string to the attribute)
-5. You can now use *<span style="color:#0090AA">UniTask</span>*, *<span style="color:#B00090">Unity.Collections</span>*, *<span style="color:#AB1010">VContainer</span>*, *<span style="color:#D0A000">ZLinq</span>* and *<span style="color:#009000">ZString</span>* in your mod
+The plugin is rebuilt against SPT 4.1.5 references. The old 2.0.1 plugin referenced SPT 4.0.1, which caused SPT 4.1's startup version check to reject it.
 
-## What features does this library provide?
+This version also fixes the prepatcher's companion lookup. It previously treated its own DLL filename as a directory and could silently skip loading `System.Runtime.CompilerServices.Unsafe.dll`. It now finds that library beside the prepatcher DLL, including when the game is started from a different working directory.
 
-1. *<span style="color:#0090AA">UniTask</span>* is a near zero-allocating, performant version of C# Tasks that's suited for Unity than the standard C# implementation
-   - It doesn't use threads or `SynchronizationContext`/`ExecutionContext` so the result is faster performance and lower allocation while matching Unity threading (single-thread)
-   - It is also possible to replace Unity's Coroutines, which has poor performance and higher memory allocation, with UniTask instead
-   - Documentation: https://github.com/Cysharp/UniTask
-2. *<span style="color:#B00090">Unity.Collections</span>* is included in this library for the additional `NativeContainer` types it provides
-   - `NativeList`, `NativeHashMap`, `NativeMultiHashMap`, and `NativeQueue`: these are useful data types when you are working with Unity's Jobs system as they are thread-safe
-   - Documentation: https://docs.unity3d.com/Packages/com.unity.collections@2.6/manual/collections-overview.html
-3. *<span style="color:#AB1010">VContainer</span>* is a fast Dependency Injection container, designed for Unity and works with injecting into both standard C# classes and Unity MonoBehaviours
-   - Documentation: https://vcontainer.hadashikick.jp
-4. *<span style="color:#D0A000">ZLinq</span>* provides high performance, zero-allocation LINQ by utilising `ValueEnumerable`, made by the developer of UniTask
-   - Documentation: https://github.com/Cysharp/ZLinq
-5. *<span style="color:#009000">ZString</span>* is a near zero-allocating string builder, which is also made by the developer of UniTask and ZLinq
-   - Documentation: https://github.com/Cysharp/ZString
+The public API and plugin GUID are unchanged. The companion libraries have not been upgraded. See the [changelog](CHANGELOG.md) for the complete changes and [release notes](docs/releases/v2.0.2.md) for the candidate's validation status.
 
-## Also included:
+## Installing
 
-- FixPluginTypesSerialization is a patcher that fixes custom classes/structs with the `[System.Serializable]` attribute not being deserialized properly for BepInEx plugins
-    - Thanks to Tarkin for discovering this bug and the fix
+Use the installable ZIP from [Releases](https://github.com/Tylevo/UnityToolkit-New/releases) once 2.0.2 is published. GitHub's source-code archives are for development and do not contain a complete installation.
 
-## Is it safe?
+1. Close SPT and the launcher.
+2. Extract the complete ZIP into your SPT 4.1.5 folder and replace the existing UnityToolkit files when prompted.
+3. Keep one UnityToolkit installation in these locations:
 
-Yes, all assemblies are just compiled versions of their original git repo
-I've also included a VirusTotal scan of all assemblies on the GitHub releases page
+   ```text
+   BepInEx/plugins/UnityToolkit/
+   BepInEx/patchers/UnityToolkit/
+   ```
 
-## Building from source
+Install both folders, including their companion DLLs and notices. UnityToolkit is a standalone dependency shared by the mods that use it; it does not require any particular consuming mod. Compatibility with every dependent mod has not been verified.
 
-1. Clone the repository:
-    ```
-    git clone https://github.com/Nympfonic/UnityToolkit.git
-    ```
-2. Place the compiled assemblies for UniTask, Unity.Collections, VContainer, ZLinq and ZString in `project\UnityToolkit\References`.
-3. Adjust the reference paths, macros and build events in the .csproj files and the SharedProperties.props file
-4. Open solution in your preferred C# IDE
-5. Build solution
+## Included libraries
+
+| Library | Used for |
+| --- | --- |
+| [UniTask](https://github.com/Cysharp/UniTask) | Async/await and coroutine alternatives suited to Unity. |
+| [Unity.Collections](https://docs.unity3d.com/Packages/com.unity.collections@2.6/manual/collections-overview.html) | Native container types for Unity code and jobs. Follow the library's allocation and job-safety rules. |
+| [VContainer](https://vcontainer.hadashikick.jp) | Dependency injection for C# classes and Unity components. |
+| [ZLinq](https://github.com/Cysharp/ZLinq) | LINQ operations through value enumerables. |
+| [ZString](https://github.com/Cysharp/ZString) | String building with reduced allocations. |
+
+The package also includes UnityToolkit's prepatcher and its Unsafe companion library. The linked documentation describes the libraries; APIs available to your mod depend on the versions included in the package.
+
+## Using UnityToolkit in a mod
+
+Copy the assemblies from the release into your project's reference folder, then add references to UnityToolkit and the companion libraries your mod uses. Declare the dependency on your BepInEx plugin class:
+
+```csharp
+[BepInDependency("com.arys.unitytoolkit", "2.0.2")]
+```
+
+Use the `BepInEx` namespace for this attribute. Players must install the complete UnityToolkit package alongside your mod. The dependency GUID remains `com.arys.unitytoolkit`.
+
+For source builds and local reference setup, see [BUILDING.md](BUILDING.md). The [prepatcher test guide](tests/README.md) explains how to run the isolated regression tests.
+
+## Credits and license
+
+UnityToolkit is by Arys and retains its original [MIT license](LICENSE). Tylevo maintains this SPT 4.1.5 update. The companion libraries retain their authorship and licenses, with full notices included in both installation folders.
+
+[Upstream source](https://github.com/ArysWasTaken/UnityToolkit) · [Existing Forge page](https://forge.sp-tarkov.com/mod/1426/unitytoolkit)
