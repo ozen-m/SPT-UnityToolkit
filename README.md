@@ -2,7 +2,7 @@
 
 UnityToolkit gives SPT client modders a shared set of libraries for asynchronous work, native collections, dependency injection, LINQ, and string building. It was created by [Arys](https://github.com/ArysWasTaken/UnityToolkit); this fork is maintained by Tylevo.
 
-**2.0.2 is a release candidate for SPT 4.1.5.** Both projects build successfully and all four isolated prepatcher tests pass. In-game testing of the corrected prepatcher is still pending. The release is being held as a draft, so its download is not publicly available yet.
+**UnityToolkit 2.0.2 supports SPT 4.1.5.** Startup was verified: the corrected prepatcher loaded its adjacent companion and UnityToolkit 2.0.2 initialized successfully. The tester reported no issues. Both builds and all four isolated prepatcher tests also passed.
 
 ## What changed in 2.0.2
 
@@ -10,11 +10,11 @@ The plugin is rebuilt against SPT 4.1.5 references. The old 2.0.1 plugin referen
 
 This version also fixes the prepatcher's companion lookup. It previously treated its own DLL filename as a directory and could silently skip loading `System.Runtime.CompilerServices.Unsafe.dll`. It now finds that library beside the prepatcher DLL, including when the game is started from a different working directory.
 
-The public API and plugin GUID are unchanged. The companion libraries have not been upgraded. See the [changelog](CHANGELOG.md) for the complete changes and [release notes](docs/releases/v2.0.2.md) for the candidate's validation status.
+The public API and plugin GUID are unchanged. The companion libraries have not been upgraded. See the [changelog](CHANGELOG.md) for the complete changes and [release notes](docs/releases/v2.0.2.md) for validation details.
 
 ## Installing
 
-Use the installable ZIP from [Releases](https://github.com/Tylevo/UnityToolkit-New/releases) once 2.0.2 is published. GitHub's source-code archives are for development and do not contain a complete installation.
+Download the installable ZIP from the [2.0.2 release](https://github.com/Tylevo/UnityToolkit-New/releases/tag/v2.0.2). GitHub's source-code archives are for development and do not contain a complete installation.
 
 1. Close SPT and the launcher.
 2. Extract the complete ZIP into your SPT 4.1.5 folder and replace the existing UnityToolkit files when prompted.

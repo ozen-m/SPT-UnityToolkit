@@ -1,10 +1,10 @@
 # Building UnityToolkit 2.0.2
 
-The SPT 4.1.5 candidate builds the plugin for .NET Standard 2.1 and the prepatcher for .NET Framework 4.8. The instructions below compile locally with automatic deployment and archive creation disabled.
+The SPT 4.1.5 release builds the plugin for .NET Standard 2.1 and the prepatcher for .NET Framework 4.8. The instructions below compile locally with automatic deployment and archive creation disabled.
 
 ## Prerequisites
 
-- Windows, Git, .NET SDK **9.0.314**, and the **.NET Framework 4.8 targeting pack**. `global.json` selects the SDK used for this candidate.
+- Windows, Git, .NET SDK **9.0.314**, and the **.NET Framework 4.8 targeting pack**. `global.json` selects the SDK used for this release.
 - SPT **4.1.5** compilation references, stored outside the repository.
 - The companion libraries from Arys's [UnityToolkit 2.0.1 release](https://github.com/ArysWasTaken/UnityToolkit/releases/tag/v2.0.1). Use the installable archive, `UnityToolkit-v2.0.1.7z`, rather than a source-code download.
 
@@ -93,10 +93,10 @@ Both DLLs should report assembly/file version `2.0.2.0`. The plugin's BepInEx ve
 
 ## Validate and package
 
-Run the compiled prepatcher tests using the explicit local inputs described in [tests/README.md](tests/README.md). The corrected candidate passed all four cases: adjacent companion, path with spaces and an unrelated working directory, missing companion, and malformed companion. The earlier prepatcher reproduced the original failure in both adjacent-companion cases.
+Run the compiled prepatcher tests using the explicit local inputs described in [tests/README.md](tests/README.md). The corrected build passed all four cases: adjacent companion, path with spaces and an unrelated working directory, missing companion, and malformed companion. The earlier prepatcher reproduced the original failure in both adjacent-companion cases.
 
-For a standalone package, start from the upstream 15-file installation layout in a separate staging directory. Replace the two Toolkit DLLs with your build, retain the 13 unchanged companion/configuration files, and include the complete third-party notices in both Toolkit folders. The prepared 2.0.2 ZIP has 17 files.
+For a standalone package, start from the upstream 15-file installation layout in a separate staging directory. Replace the two Toolkit DLLs with your build, retain the 13 unchanged companion/configuration files, and include the complete third-party notices in both Toolkit folders. The 2.0.2 ZIP has 17 files.
 
 Do not copy a build output directory wholesale into a release: it can contain game and SPT references copied for compilation. Package only the reviewed Toolkit installation layout, with `BepInEx/` at the archive root.
 
-Both candidate builds completed with zero warnings and errors. The public API audit and isolated tests do not replace an SPT launch or testing with consuming mods. In-game testing of the corrected candidate remains pending.
+Both builds completed with zero warnings and errors. SPT 4.1.5 startup verified the corrected companion lookup and UnityToolkit 2.0.2 loading; the tester reported no issues. This startup check does not establish complete raid, multiplayer, or every-mod compatibility.

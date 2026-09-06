@@ -1,8 +1,8 @@
 # Changelog
 
-## 2.0.2 — SPT 4.1.5 release candidate
+## 2.0.2 — SPT 4.1.5
 
-Prepared for release; the download is held as a draft while in-game testing of the corrected prepatcher is pending. This is a compatibility update and bug fix. It keeps UnityToolkit's existing public API and companion library versions.
+This is a compatibility update and bug fix. It keeps UnityToolkit's existing public API and companion library versions.
 
 - **SPT 4.1.5 build:** rebuilt the plugin against the matching SPT references, including `spt-reflection` 4.1.5.0. Added the `SPT-4.1 Release` solution/project configuration and its .NET Standard 2.1 plugin target. The upstream plugin's 4.0.1 reflection reference caused SPT 4.1's startup version check to reject it.
 - **Prepatcher build:** moved the prepatcher target to .NET Framework 4.8 and used the matching local SPT/BepInEx/Mono.Cecil references instead of the old package paths.
@@ -13,7 +13,7 @@ Prepared for release; the download is held as a draft while in-game testing of t
 - **Standalone packaging:** preserve the original 15-file installation layout and its 13 unchanged companion/configuration files. Include two complete license-notice files, for 17 files total, retaining the original MIT license and companion credits.
 - **Regression coverage:** add four isolated tests of the compiled prepatcher, covering adjacent, spaced/unrelated-working-directory, missing, and malformed companion cases. All four pass; the original bug reproduces in both adjacent cases. API and method comparisons confirm unchanged public API and plugin method bodies, with only the prepatcher's static constructor changing behavior.
 
-The build and test results establish the checks above. They do not establish in-game behavior or compatibility with every mod using UnityToolkit. See the [release notes](docs/releases/v2.0.2.md) and [build/test instructions](BUILDING.md).
+SPT 4.1.5 startup verified that the corrected prepatcher loaded its adjacent companion and UnityToolkit 2.0.2 initialized. The tester reported no issues. This verifies startup, not complete raid, multiplayer, or every-mod compatibility. See the [release notes](docs/releases/v2.0.2.md) and [build/test instructions](BUILDING.md).
 
 ## 2.0.1 — upstream baseline
 

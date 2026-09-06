@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "releaseVersion": "2.0.2",
   "targetSpt": "4.1.5",
-  "status": "Static validation and isolated prepatcher regressions passed; in-game acceptance pending.",
+  "status": "Build, isolated regression, and SPT 4.1.5 startup checks passed.",
   "source": {
     "upstreamVersion": "2.0.1",
     "upstreamCommit": "3c27a9798dc4396ca0b3dc765448a4221ff3007b",
@@ -41,7 +41,7 @@
     "author": "Arys",
     "pluginSha256": "F047AED2C3A1AC118DB2BC9C86BD36CF89D675C7522E36E28129487CCFCF1EDC",
     "prepatcherSha256": "2AC08B36DA55B0B8A1E52DB12B2922ECC829778AAF066BEA4BED20A9EDBAD15A",
-    "scope": "Shared UnityToolkit dependency; no TSC-specific APIs or TSC binaries are added."
+    "scope": "Shared UnityToolkit dependency with the existing public API preserved."
   },
   "staticCompatibility": {
     "prepatcherPublicApiEntriesCompared": 5,
@@ -109,7 +109,6 @@
     "licenseNoticeFiles": 2,
     "filesUnchangedSincePrevious202": 16,
     "gameOrSptReferenceBinariesIncluded": false,
-    "tscOrWttBinariesIncluded": false,
     "mutableUserFilesIncluded": false,
     "files": [
       {
@@ -200,9 +199,27 @@
     ]
   },
   "limitations": [
-    "The corrected prepatcher has not passed an in-game launch or raid acceptance test.",
-    "Static checks and isolated regressions do not establish compatibility with every dependent mod, Fika, or raid scenario.",
+    "The corrected prepatcher passed SPT 4.1.5 startup; a full raid or multiplayer acceptance test has not been performed.",
+    "Static checks and isolated regressions do not establish compatibility with every dependent mod or raid scenario.",
     "The path fix activates the existing Unsafe replacement. Companion library bytes are unchanged.",
     "The demonstrated startup blocker is the original plugin SPT reference; the path fix addresses a separate inherited defect. Other retained build adjustments were not individually proven necessary."
-  ]
+  ],
+  "startupAcceptance": {
+    "status": "Passed",
+    "sptVersion": "4.1.5",
+    "toolkitVersion": "2.0.2",
+    "prepatcherSha256": "2AC08B36DA55B0B8A1E52DB12B2922ECC829778AAF066BEA4BED20A9EDBAD15A",
+    "userReported": "No issues reaching the main menu after installing the corrected prepatcher.",
+    "companionLoadConfirmed": true,
+    "nativePatchInvocationConfirmed": true,
+    "toolkitPluginLoadConfirmed": true,
+    "errorOrFatalLogEntriesObserved": 0,
+    "context": "Local SPT 4.1.5 startup.",
+    "scope": "Startup and corrected companion loading. This is not a complete raid, multiplayer, or all-dependent-mod compatibility test.",
+    "evidence": [
+      "UnityToolkit-Prepatcher: Loading new version of assembly System.Runtime.CompilerServices.Unsafe.dll from <SPT>/BepInEx/patchers/UnityToolkit/System.Runtime.CompilerServices.Unsafe.dll",
+      "BepInEx: Patching System.Runtime.CompilerServices.Unsafe with UnityToolkit.Prepatcher.Patcher",
+      "BepInEx: Loading Unity Toolkit 2.0.2"
+    ]
+  }
 }
