@@ -26,8 +26,8 @@ public class InjectPlayerLoopSystems : ModulePatch
 			"Injection");
 	}
 
-	[PatchPostfix]
-	private static void PatchPostfix()
+	[PatchPrefix]
+	private static void PatchPrefix()
 	{
 		InjectUniTaskPlayerLoopSystems();
 #if DEBUG
@@ -37,9 +37,25 @@ public class InjectPlayerLoopSystems : ModulePatch
 
 	private static void InjectUniTaskPlayerLoopSystems()
 	{
-		PlayerLoopSystem playerLoop = PlayerLoop.GetCurrentPlayerLoop();
-		Cysharp.Threading.Tasks.PlayerLoopHelper.Initialize(ref playerLoop);
-	}
+        // Try and call PlayerLoopHelper.Init,
+        // PlayerLoopHelper.Initialize does not capture unity's sync-context/mainThreadId used by UniTask so we use Init instead.
+        AccessTools.Method("Cysharp.Threading.Tasks.PlayerLoopHelper:Init")?.Invoke(null, null);
+
+        if (!Cysharp.Threading.Tasks.PlayerLoopHelper.IsInjectedUniTaskPlayerLoop())
+        {
+            Logger.LogError("Failed to inject UniTask player loop systems!");
+            return;
+        }
+
+        if (Cysharp.Threading.Tasks.PlayerLoopHelper.UnitySynchronizationContext == null)
+        {
+            Logger.LogWarning("Failed to capture Unity Synchronization Context, UniTask may not function properly.");
+        }
+
+        // We've modified the current PlayerLoop to include UniTask's systems.
+        // Set the current loop so EFT's PlayerLoop modifications preserves UniTask's systems.
+        PlayerLoopSystemHelpers._currentLoop = PlayerLoop.GetCurrentPlayerLoop();
+    }
 
 #if DEBUG
 	private static void TestVContainer()
